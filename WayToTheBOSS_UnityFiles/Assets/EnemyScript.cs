@@ -6,13 +6,13 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private Transform enemyTransform;
     [SerializeField] private Transform playerTransform;
-    [SerializeField] private Transform swordPosition;
+    //[SerializeField] private Transform swordPosition;
     [SerializeField] private Animator enemyAnimator;
-    [SerializeField] private GameObject halfHP;
+    //[SerializeField] private GameObject halfHP;
     [SerializeField] private float moveableDistance;
     [SerializeField] private float attackableDistance;
     [SerializeField] private float attackTimer;
-    [SerializeField] private int hitPoint;
+    //[SerializeField] private int hitPoint;
     [SerializeField] private LayerMask playerLayer;
     private Collider2D enemyCollider;
     private Rigidbody2D enemeyRigidbody;
@@ -29,7 +29,7 @@ public class EnemyScript : MonoBehaviour
 
         enemyCollider = GetComponent<Collider2D>();
         enemeyRigidbody = GetComponent<Rigidbody2D>();
-        enemyAnimator = gameObject.GetComponentInChildren<Animator>();
+        //enemyAnimator = gameObject.GetComponentInChildren<Animator>();
         playerTransform = GameObject.Find("Player").transform;
     }
 
@@ -85,7 +85,7 @@ public class EnemyScript : MonoBehaviour
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0)
         {
-            StartCoroutine(hitPlayer());
+            //StartCoroutine(hitPlayer());
             attackTimer = oldAttackTimer;
             int index = Random.Range(0, 2);
             switch (index)
@@ -96,7 +96,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void HitAnimation()
+    /*public void HitAnimation()
     {
         hitCounter++;
         if (hitCounter >= hitPoint)
@@ -122,9 +122,9 @@ public class EnemyScript : MonoBehaviour
             enemyAnimator.SetTrigger("hit");
             StartCoroutine(Hit());
         }
-    }
+    }*/
 
-    IEnumerator hitPlayer()
+    /*IEnumerator hitPlayer()
     {
         yield return new WaitForSeconds(0.25f);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordPosition.position, 1, playerLayer);
@@ -133,7 +133,7 @@ public class EnemyScript : MonoBehaviour
             PlayerControl hit = enemy.transform.GetComponent<PlayerControl>();
             //hit.GetHit();
         }
-    }
+    }*/
 
     IEnumerator Hit()
     {

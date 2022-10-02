@@ -2180,7 +2180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Way To The BOSS
+  m_text: BOSS'luk Yolu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3563479af863964b94b1445bf64867d, type: 2}
   m_sharedMaterial: {fileID: 1641612678899308953, guid: c3563479af863964b94b1445bf64867d,
@@ -2218,8 +2218,8 @@ MonoBehaviour:
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: -72.45
+  m_characterSpacing: -10
+  m_wordSpacing: 10
   m_lineSpacing: 0
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
