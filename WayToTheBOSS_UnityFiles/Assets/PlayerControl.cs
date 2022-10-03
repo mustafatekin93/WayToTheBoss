@@ -34,7 +34,7 @@ public class PlayerControl : MonoBehaviour
     private float attackTime = 0.25f;
     private float attackTimeCounter;
 
-    private DialogueController npc;
+    private DialogueController dialogueController;
 
     private bool isPaused = false;
 
@@ -271,8 +271,8 @@ public class PlayerControl : MonoBehaviour
     //Karakter bir dialog içerisinde mi?
     private bool inDialogue()
     {
-        if (npc != null)
-            return npc.DialogueActive();
+        if (dialogueController != null)
+            return dialogueController.DialogueActive();
         else
             return false;
     }
@@ -282,17 +282,17 @@ public class PlayerControl : MonoBehaviour
     {
         if (col.gameObject.tag == "DialogueArea")
         {
-            npc = col.gameObject.GetComponent<DialogueController>();
+            dialogueController = col.gameObject.GetComponent<DialogueController>();
 
-            if (npc.isThisBossArea())
+            if (dialogueController.isThisBossArea())
             {
-                npc.ActivateDialogue();
+                dialogueController.ActivateDialogue();
             }
             else
             {
                 if (Input.GetKeyDown(KeyCode.Z))
                 {
-                    npc.ActivateDialogue();
+                    dialogueController.ActivateDialogue();
                     stopMove();
                 }
             }
@@ -302,7 +302,7 @@ public class PlayerControl : MonoBehaviour
     //Karakter dialog alanından çıktı mı?
     private void OnTriggerExit2D(Collider2D col)
     {
-        npc = null;
+        dialogueController = null;
     }
 }
 

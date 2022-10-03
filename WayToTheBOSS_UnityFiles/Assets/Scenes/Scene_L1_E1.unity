@@ -536,7 +536,7 @@ GameObject:
   - component: {fileID: 215940314}
   m_Layer: 0
   m_Name: camConfiner_boss
-  m_TagString: Untagged
+  m_TagString: DialogueArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7907,7 +7907,7 @@ PrefabInstance:
     - target: {fileID: 7557716808049298916, guid: 6996db16af095db4fb98374c1db141f6,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: DialogueArea
       objectReference: {fileID: 0}
     - target: {fileID: 8912675447234890472, guid: 6996db16af095db4fb98374c1db141f6,
         type: 3}
