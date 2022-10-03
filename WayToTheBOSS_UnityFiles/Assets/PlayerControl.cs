@@ -34,6 +34,10 @@ public class PlayerControl : MonoBehaviour
     private float attackTime = 0.25f;
     private float attackTimeCounter;
 
+    private DialogueController npc;
+
+    private bool isPaused = false;
+
     //[SerializeField] private Transform swordPoint;
     //[SerializeField] private float swordRange;
     //[SerializeField] private LayerMask enemyLayer;
@@ -42,23 +46,48 @@ public class PlayerControl : MonoBehaviour
     public void stopMove()
     {
         rb.velocity = new Vector2(0, 0);
+        IdleAnimation();
     }
 
     void FixedUpdate()
     {
-        moveInput = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        if (!inDialogue())
+        {
+            moveInput = Input.GetAxisRaw("Horizontal");
+            rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
+        }
     }
 
     void Update()
     {
         if (Input.GetButtonDown("Pause"))
         {
-            Debug.Log("Paused");
+
         }
 
-        isGrounded = Physics2D.OverlapCircle(feetPosition.position, checkRadius, groundLayer);
+        if (!inDialogue())
+        {
+            CharacterMovement();
+        }
+    }
 
+
+    //Karakter Hareketleri
+    private void CharacterMovement()
+    {
+        // Karakterin sağa yada sola dönmesi
+        if (moveInput > 0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else if (moveInput < 0)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+
+
+        // Karakter in yerde olup olmadığının kontrol edilmesi
+        isGrounded = Physics2D.OverlapCircle(feetPosition.position, checkRadius, groundLayer);
         if (isGrounded)
         { coyoteTimeCounter = coyoteTime; }
         else
@@ -69,15 +98,9 @@ public class PlayerControl : MonoBehaviour
         else
         { jumpBufferCounter -= Time.deltaTime; }
 
-        if (moveInput > 0)
-        {
-            transform.eulerAngles = new Vector3(0, 0, 0);
-        }
-        else if (moveInput < 0)
-        {
-            transform.eulerAngles = new Vector3(0, 180, 0);
-        }
 
+
+        //Karakterin coyoteTime ve jumpBuffer ile zıplaması
         if (coyoteTimeCounter > 0 && jumpBufferCounter > 0)
         {
             isJumping = true;
@@ -88,7 +111,6 @@ public class PlayerControl : MonoBehaviour
 
         if (isJumping == true && Input.GetButton("Jump"))
         {
-            Debug.Log("Jump");
             if (jumpTimeCounter > 0)
             {
                 rb.velocity = Vector2.up * jumpForce;
@@ -98,7 +120,6 @@ public class PlayerControl : MonoBehaviour
             {
                 isJumping = false;
             }
-
         }
 
         if (Input.GetButtonUp("Jump"))
@@ -106,6 +127,8 @@ public class PlayerControl : MonoBehaviour
             isJumping = false;
         }
 
+
+        //Attack tuşuna basılı tutunca karakterin koşması
         if (Input.GetButton("Attack"))
         {
             speed = runSpeed;
@@ -115,6 +138,8 @@ public class PlayerControl : MonoBehaviour
             speed = walkSpeed;
         }
 
+
+        //Ard arda yapılan ataklara aralık konması
         attackTimeCounter -= Time.deltaTime;
         if ((Input.GetButtonDown("Attack")) && attackTimeCounter <= 0)
         {
@@ -122,30 +147,50 @@ public class PlayerControl : MonoBehaviour
             attackTimeCounter = attackTime;
         }
 
+
+        //Basılan tuşlara göre karakterin duruyor, yürüyor yada koşuyor olması
         if ((moveInput < 0 || moveInput > 0) && speed == runSpeed)
         {
-            animator.SetFloat("playerSpeed", speed);
-            animator.SetBool("isRunning", true);
-            animator.SetBool("isWalking", false);
+            RunAnimation();
         }
-
         else if ((moveInput < 0 || moveInput > 0) && speed == walkSpeed)
         {
-            animator.SetFloat("playerSpeed", speed);
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isWalking", true);
+            WalkAnimation();
         }
         else if (moveInput == 0)
         {
-            animator.SetFloat("playerSpeed", 0);
-            animator.SetBool("isRunning", false);
-            animator.SetBool("isWalking", false);
+            IdleAnimation();
         }
     }
 
+    //animator koşma animasyonu
+    private void RunAnimation()
+    {
+        animator.SetFloat("playerSpeed", speed);
+        animator.SetBool("isRunning", true);
+        animator.SetBool("isWalking", false);
+    }
+
+    //animator yürüme animasyonu
+    private void WalkAnimation()
+    {
+        animator.SetFloat("playerSpeed", speed);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isWalking", true);
+    }
+
+    //animator durma animasyonu
+    private void IdleAnimation()
+    {
+        animator.SetFloat("playerSpeed", 0);
+        animator.SetBool("isRunning", false);
+        animator.SetBool("isWalking", false);
+    }
+
+    //karakterin atak yapması
     void Attack()
     {
-        rb.velocity = rb.velocity * new Vector2(0, 0.05f);
+        rb.velocity = rb.velocity * new Vector2(0, 0.1f);
         int index = Random.Range(0, 2);
         switch (index)
         {
@@ -221,6 +266,44 @@ public class PlayerControl : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         sr.color = Color.white;
     }*/
+
+
+    //Karakter bir dialog içerisinde mi?
+    private bool inDialogue()
+    {
+        if (npc != null)
+            return npc.DialogueActive();
+        else
+            return false;
+    }
+
+    //Karakter dialog alanına girdi mi?
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        if (col.gameObject.tag == "DialogueArea")
+        {
+            npc = col.gameObject.GetComponent<DialogueController>();
+
+            if (npc.isThisBossArea())
+            {
+                npc.ActivateDialogue();
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Z))
+                {
+                    npc.ActivateDialogue();
+                    stopMove();
+                }
+            }
+        }
+    }
+
+    //Karakter dialog alanından çıktı mı?
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        npc = null;
+    }
 }
 
 

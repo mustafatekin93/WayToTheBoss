@@ -7,6 +7,7 @@ TagManager:
   - animator
   - CaveEnter
   - cam
+  - DialogueArea
   layers:
   - Default
   - TransparentFX
