@@ -4,26 +4,29 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    [SerializeField] private Transform enemyTransform;
-    [SerializeField] private Transform playerTransform;
-    [SerializeField] private Transform swordPosition;
-    [SerializeField] private Animator enemyAnimator;
+    public Transform enemyTransform;
+    [HideInInspector] public Transform playerTransform;
+    public Transform swordPosition;
+    public Animator enemyAnimator;
     //[SerializeField] private GameObject halfHP;
-    [SerializeField] private float moveableDistance;
-    [SerializeField] private float attackableDistance;
-    [SerializeField] private float attackTimer;
+    public float moveableDistance;
+    public float attackableDistance;
+    public float attackTimer;
     [SerializeField] private int hitPoint;
-    [SerializeField] private LayerMask playerLayer;
+    public LayerMask playerLayer;
     private Collider2D enemyCollider;
     private Rigidbody2D enemeyRigidbody;
-    private float oldAttackTimer;
-    private float distance;
+
+    [HideInInspector] public float oldAttackTimer;
+    [HideInInspector] public float distance;
+
     private int hitCounter;
     private PlayerControl playerControl;
 
 
     void Awake()
     {
+
         oldAttackTimer = attackTimer;
         attackTimer = 0;
         hitCounter = 0;
@@ -41,9 +44,10 @@ public class EnemyScript : MonoBehaviour
             return;
 
         distance = playerTransform.position.x - enemyTransform.position.x;
+
         if (!playerControl.inDialogue())
         {
-            if (Mathf.Abs(distance) < moveableDistance && Mathf.Abs(distance) > attackableDistance)
+            if (Mathf.Abs(distance) < moveableDistance && Mathf.Abs(distance) > attackableDistance && Mathf.Abs(playerTransform.position.y - enemyTransform.position.y) <= 3)
             {
                 MoveToPlayer(true);
             }
@@ -55,12 +59,11 @@ public class EnemyScript : MonoBehaviour
         }
         else
         {
-            enemyAnimator.SetBool("isWalking", false);
-            enemyAnimator.SetFloat("playerSpeed", 0);
+            IdleAnimation();
         }
     }
 
-    private void MoveToPlayer(bool condition)
+    protected virtual void MoveToPlayer(bool condition)
     {
         if (condition == true)
         {
@@ -80,17 +83,22 @@ public class EnemyScript : MonoBehaviour
 
         else if (condition == false)
         {
-            enemyAnimator.SetBool("isWalking", false);
-            enemyAnimator.SetFloat("playerSpeed", 0);
+            IdleAnimation();
         }
     }
 
-    private void AttackToPlayer()
+    protected virtual void IdleAnimation()
+    {
+        enemyAnimator.SetBool("isWalking", false);
+        enemyAnimator.SetFloat("playerSpeed", 0);
+    }
+
+    protected virtual void AttackToPlayer()
     {
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0)
         {
-            StartCoroutine(hitPlayer());
+            StartCoroutine(hitPlayer(0.25f));
             attackTimer = oldAttackTimer;
             int index = Random.Range(0, 2);
             switch (index)
@@ -129,9 +137,9 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    IEnumerator hitPlayer()
+    protected virtual IEnumerator hitPlayer(float attackDelay)
     {
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(attackDelay);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordPosition.position, 1, playerLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -142,6 +150,7 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator Hit()
     {
+        attackTimer = oldAttackTimer;
         SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
         Color oldColor = sr.color;
         sr.color = Color.red;
@@ -149,13 +158,13 @@ public class EnemyScript : MonoBehaviour
         sr.color = oldColor;
     }
 
-    void Death()
+    protected virtual void Death()
     {
         enemyAnimator.SetTrigger("isDead");
         Destroy(enemeyRigidbody);
         Destroy(enemyCollider);
         //enemyCollider.isTrigger = true;
         //enemeyRigidbody.isKinematic = true;
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 3f);
     }
 }

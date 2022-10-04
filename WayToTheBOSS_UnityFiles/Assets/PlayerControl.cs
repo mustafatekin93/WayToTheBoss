@@ -36,7 +36,7 @@ public class PlayerControl : MonoBehaviour
 
     private DialogueController dialogueController;
 
-    private bool isPaused = false;
+    public static bool isPaused = false;
 
     [SerializeField] private Transform swordPoint;
     [SerializeField] private float swordRange;
@@ -64,7 +64,15 @@ public class PlayerControl : MonoBehaviour
     {
         if (Input.GetButtonDown("Pause"))
         {
-
+            isPaused = !isPaused;
+            if (isPaused)
+            {
+                Time.timeScale = 0;
+            }
+            else
+            {
+                Time.timeScale = 1;
+            }
         }
 
         if (!inDialogue())
@@ -202,11 +210,11 @@ public class PlayerControl : MonoBehaviour
         StartCoroutine(hitEnemy());
     }
 
-
+    //karakterin hasar yemesi
     public void GetHit()
     {
         hitCounter++;
-        if (hitCounter >= 7)
+        if (hitCounter >= 90)
         {
             //StartCoroutine(GameOverScreen());
             stopMove();
@@ -221,9 +229,12 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
+    IEnumerator Hit()
     {
-        Gizmos.DrawWireSphere(feetPosition.position, checkRadius);
+        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
+        sr.color = Color.red;
+        yield return new WaitForSeconds(0.25f);
+        sr.color = Color.white;
     }
 
     /*void OnCollisionEnter2D(Collision2D col)
@@ -239,6 +250,8 @@ public class PlayerControl : MonoBehaviour
         }
     }*/
 
+
+    //Karakterin düşmana hasar vemesi
     IEnumerator hitEnemy()
     {
         yield return new WaitForSeconds(0.25f);
@@ -262,15 +275,6 @@ public class PlayerControl : MonoBehaviour
             }*/
         }
     }
-
-    IEnumerator Hit()
-    {
-        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
-        sr.color = Color.red;
-        yield return new WaitForSeconds(0.25f);
-        sr.color = Color.white;
-    }
-
 
     //Karakter bir dialog içerisinde mi?
     public bool inDialogue()
@@ -300,6 +304,14 @@ public class PlayerControl : MonoBehaviour
                     stopMove();
                 }
             }
+        }
+    }
+
+    void OnCollisionStay2D(Collision2D col)
+    {
+        if (col.transform.tag == "Enemy")
+        {
+            StartCoroutine(Hit());
         }
     }
 
