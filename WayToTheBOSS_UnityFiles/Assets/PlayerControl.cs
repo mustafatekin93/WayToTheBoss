@@ -34,8 +34,6 @@ public class PlayerControl : MonoBehaviour
     private float attackTime = 0.25f;
     private float attackTimeCounter;
 
-    private DialogueController dialogueController;
-
     public static bool isPaused = false;
 
     [SerializeField] private Transform swordPoint;
@@ -53,7 +51,7 @@ public class PlayerControl : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!inDialogue())
+        if (!DialogueSystem.inDialogue)
         {
             moveInput = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
@@ -75,9 +73,13 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (!inDialogue())
+        if (!DialogueSystem.inDialogue)
         {
             CharacterMovement();
+        }
+        else
+        {
+            stopMove();
         }
     }
 
@@ -276,49 +278,12 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    //Karakter bir dialog içerisinde mi?
-    public bool inDialogue()
-    {
-        if (dialogueController != null)
-            return dialogueController.DialogueActive();
-        else
-            return false;
-    }
-
-    //Karakter dialog alanına girdi mi?
-    private void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.gameObject.tag == "DialogueArea")
-        {
-            dialogueController = col.gameObject.GetComponent<DialogueController>();
-
-            if (dialogueController.isThisBossArea())
-            {
-                dialogueController.ActivateDialogue();
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    dialogueController.ActivateDialogue();
-                    stopMove();
-                }
-            }
-        }
-    }
-
     void OnCollisionStay2D(Collision2D col)
     {
         if (col.transform.tag == "Enemy")
         {
             StartCoroutine(Hit());
         }
-    }
-
-    //Karakter dialog alanından çıktı mı?
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        dialogueController = null;
     }
 }
 

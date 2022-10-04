@@ -45,7 +45,7 @@ public class EnemyScript : MonoBehaviour
 
         distance = playerTransform.position.x - enemyTransform.position.x;
 
-        if (!playerControl.inDialogue())
+        if (!DialogueSystem.inDialogue)
         {
             if (Mathf.Abs(distance) < moveableDistance && Mathf.Abs(distance) > attackableDistance && Mathf.Abs(playerTransform.position.y - enemyTransform.position.y) <= 3)
             {
