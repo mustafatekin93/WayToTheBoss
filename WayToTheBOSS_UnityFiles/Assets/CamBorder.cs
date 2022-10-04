@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class CamBorder : MonoBehaviour
 {
-
-    void OnTriggerEnter2D()
+    void OnTriggerEnter2D(Collider2D col)
     {
-        GameObject.FindGameObjectWithTag("cam").GetComponent<CamBorderSelector>().borderCollider = this.transform.gameObject.GetComponent<Collider2D>();
+        if (col.transform.tag == "Player")
+            GameObject.FindGameObjectWithTag("cam").GetComponent<CamBorderSelector>().borderCollider = this.transform.gameObject.GetComponent<Collider2D>();
     }
 }

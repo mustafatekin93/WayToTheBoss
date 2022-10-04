@@ -38,9 +38,11 @@ public class PlayerControl : MonoBehaviour
 
     private bool isPaused = false;
 
-    //[SerializeField] private Transform swordPoint;
-    //[SerializeField] private float swordRange;
-    //[SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private Transform swordPoint;
+    [SerializeField] private float swordRange;
+    [SerializeField] private LayerMask enemyLayer;
+
+    private int hitCounter = 0;
 
 
     public void stopMove()
@@ -197,16 +199,17 @@ public class PlayerControl : MonoBehaviour
             case 0: animator.SetTrigger("attack1"); break;
             case 1: animator.SetTrigger("attack2"); break;
         }
-        //StartCoroutine(hitEnemy());
+        StartCoroutine(hitEnemy());
     }
 
 
-    /*public void GetHit()
+    public void GetHit()
     {
         hitCounter++;
         if (hitCounter >= 7)
         {
-            StartCoroutine(GameOverScreen());
+            //StartCoroutine(GameOverScreen());
+            stopMove();
             animator.SetBool("isDead", true);
             Destroy(gameObject, 3);
             this.enabled = false;
@@ -216,7 +219,7 @@ public class PlayerControl : MonoBehaviour
             animator.SetTrigger("hit");
             StartCoroutine(Hit());
         }
-    }*/
+    }
 
     void OnDrawGizmos()
     {
@@ -235,7 +238,8 @@ public class PlayerControl : MonoBehaviour
             }
         }
     }*/
-    /*IEnumerator hitEnemy()
+
+    IEnumerator hitEnemy()
     {
         yield return new WaitForSeconds(0.25f);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordPoint.position, swordRange, enemyLayer);
@@ -246,7 +250,7 @@ public class PlayerControl : MonoBehaviour
                 es = enemy.transform.GetComponent<EnemyScript>();
                 es.HitAnimation();
             }
-            if (enemy.TryGetComponent<FantasyWarrior>(out FantasyWarrior fw))
+            /*if (enemy.TryGetComponent<FantasyWarrior>(out FantasyWarrior fw))
             {
                 fw = enemy.transform.GetComponent<FantasyWarrior>();
                 fw.HitAnimation();
@@ -255,21 +259,21 @@ public class PlayerControl : MonoBehaviour
             {
                 sb = enemy.transform.GetComponent<SkeletonBoss>();
                 sb.HitAnimation();
-            }
+            }*/
         }
-    }*/
+    }
 
-    /*IEnumerator Hit()
+    IEnumerator Hit()
     {
         SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
         sr.color = Color.red;
         yield return new WaitForSeconds(0.25f);
         sr.color = Color.white;
-    }*/
+    }
 
 
     //Karakter bir dialog içerisinde mi?
-    private bool inDialogue()
+    public bool inDialogue()
     {
         if (dialogueController != null)
             return dialogueController.DialogueActive();

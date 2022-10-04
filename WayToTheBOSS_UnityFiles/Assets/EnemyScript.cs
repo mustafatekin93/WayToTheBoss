@@ -6,19 +6,20 @@ public class EnemyScript : MonoBehaviour
 {
     [SerializeField] private Transform enemyTransform;
     [SerializeField] private Transform playerTransform;
-    //[SerializeField] private Transform swordPosition;
+    [SerializeField] private Transform swordPosition;
     [SerializeField] private Animator enemyAnimator;
     //[SerializeField] private GameObject halfHP;
     [SerializeField] private float moveableDistance;
     [SerializeField] private float attackableDistance;
     [SerializeField] private float attackTimer;
-    //[SerializeField] private int hitPoint;
+    [SerializeField] private int hitPoint;
     [SerializeField] private LayerMask playerLayer;
     private Collider2D enemyCollider;
     private Rigidbody2D enemeyRigidbody;
     private float oldAttackTimer;
     private float distance;
     private int hitCounter;
+    private PlayerControl playerControl;
 
 
     void Awake()
@@ -29,8 +30,9 @@ public class EnemyScript : MonoBehaviour
 
         enemyCollider = GetComponent<Collider2D>();
         enemeyRigidbody = GetComponent<Rigidbody2D>();
-        //enemyAnimator = gameObject.GetComponentInChildren<Animator>();
+        enemyAnimator = gameObject.GetComponentInChildren<Animator>();
         playerTransform = GameObject.Find("Player").transform;
+        playerControl = playerTransform.GetComponent<PlayerControl>();
     }
 
     void Update()
@@ -39,14 +41,17 @@ public class EnemyScript : MonoBehaviour
             return;
 
         distance = playerTransform.position.x - enemyTransform.position.x;
-        if (Mathf.Abs(distance) < moveableDistance && Mathf.Abs(distance) > attackableDistance)
+        if (!playerControl.inDialogue())
         {
-            MoveToPlayer(true);
-        }
-        else if (Mathf.Abs(distance) < attackableDistance)
-        {
-            MoveToPlayer(false);
-            AttackToPlayer();
+            if (Mathf.Abs(distance) < moveableDistance && Mathf.Abs(distance) > attackableDistance)
+            {
+                MoveToPlayer(true);
+            }
+            else if (Mathf.Abs(distance) < attackableDistance)
+            {
+                MoveToPlayer(false);
+                AttackToPlayer();
+            }
         }
         else
         {
@@ -85,7 +90,7 @@ public class EnemyScript : MonoBehaviour
         attackTimer -= Time.deltaTime;
         if (attackTimer <= 0)
         {
-            //StartCoroutine(hitPlayer());
+            StartCoroutine(hitPlayer());
             attackTimer = oldAttackTimer;
             int index = Random.Range(0, 2);
             switch (index)
@@ -96,20 +101,20 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    /*public void HitAnimation()
+    public void HitAnimation()
     {
         hitCounter++;
         if (hitCounter >= hitPoint)
         {
             Death();
-            switch (Random.Range(0,2))
+            /*switch (Random.Range(0,2))
             {
                 case 0:
-                    GameObject _halfHP = (GameObject)Instantiate(halfHP, transform.position, Quaternion.identity);
-                    _halfHP.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                    //GameObject _halfHP = (GameObject)Instantiate(halfHP, transform.position, Quaternion.identity);
+                    //_halfHP.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
                     break;
                 default: break;
-            }
+            }*/
             this.enabled = false;
             return;
         }
@@ -122,18 +127,18 @@ public class EnemyScript : MonoBehaviour
             enemyAnimator.SetTrigger("hit");
             StartCoroutine(Hit());
         }
-    }*/
+    }
 
-    /*IEnumerator hitPlayer()
+    IEnumerator hitPlayer()
     {
         yield return new WaitForSeconds(0.25f);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordPosition.position, 1, playerLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
             PlayerControl hit = enemy.transform.GetComponent<PlayerControl>();
-            //hit.GetHit();
+            hit.GetHit();
         }
-    }*/
+    }
 
     IEnumerator Hit()
     {
