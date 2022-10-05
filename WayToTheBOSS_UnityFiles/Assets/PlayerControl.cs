@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float jumpForce;
+    [SerializeField] private int playerHitPoint;
 
 
     private bool isGrounded;
@@ -34,14 +35,20 @@ public class PlayerControl : MonoBehaviour
     private float attackTime = 0.25f;
     private float attackTimeCounter;
 
-    public static bool isPaused = false;
+    public static bool isPaused { get; private set; }
 
     [SerializeField] private Transform swordPoint;
     [SerializeField] private float swordRange;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private GameObject gameOverScreen;
 
     private int hitCounter = 0;
 
+    void Start()
+    {
+        isPaused = false;
+    }
 
     public void stopMove()
     {
@@ -65,10 +72,12 @@ public class PlayerControl : MonoBehaviour
             isPaused = !isPaused;
             if (isPaused)
             {
+                pauseMenu.SetActive(true);
                 Time.timeScale = 0;
             }
             else
             {
+                pauseMenu.SetActive(false);
                 Time.timeScale = 1;
             }
         }
@@ -216,9 +225,9 @@ public class PlayerControl : MonoBehaviour
     public void GetHit()
     {
         hitCounter++;
-        if (hitCounter >= 90)
+        if (hitCounter >= playerHitPoint)
         {
-            //StartCoroutine(GameOverScreen());
+            gameOverScreen.SetActive(true);
             stopMove();
             animator.SetBool("isDead", true);
             Destroy(gameObject, 3);

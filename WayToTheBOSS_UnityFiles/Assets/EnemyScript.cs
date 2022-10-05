@@ -38,8 +38,11 @@ public class EnemyScript : MonoBehaviour
         playerControl = playerTransform.GetComponent<PlayerControl>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
+        if (PlayerControl.isPaused)
+            return;
+
         if (playerTransform == null || enemyTransform == null)
             return;
 
