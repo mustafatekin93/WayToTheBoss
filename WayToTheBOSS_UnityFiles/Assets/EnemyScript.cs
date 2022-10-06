@@ -162,6 +162,13 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(swordPosition.position, 1);
+    }
+
     IEnumerator Hit()
     {
         attackTimer = oldAttackTimer;
