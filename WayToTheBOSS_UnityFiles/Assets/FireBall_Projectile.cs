@@ -19,7 +19,7 @@ public class FireBall_Projectile : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, 2f * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, Player.transform.position, 6f * Time.deltaTime);
         transform.up = Player.transform.position - transform.position;
         //transform.LookAt(playerPosition);
     }

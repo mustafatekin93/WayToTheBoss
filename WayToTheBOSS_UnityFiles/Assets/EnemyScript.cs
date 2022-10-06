@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    public Transform enemyTransform;
-    [HideInInspector] public Transform playerTransform;
-    public Transform swordPosition;
-    public Animator enemyAnimator;
+    [SerializeField] protected Transform enemyTransform;
+    protected Transform playerTransform;
+    [SerializeField] protected Transform swordPosition;
+    [SerializeField] protected Animator enemyAnimator;
     //[SerializeField] private GameObject halfHP;
-    public float moveableDistance;
-    public float attackableDistance;
-    public float attackTimer;
-    [SerializeField] private int hitPoint;
-    public LayerMask playerLayer;
-    private Collider2D enemyCollider;
-    private Rigidbody2D enemeyRigidbody;
+    [SerializeField] protected float moveableDistance;
+    [SerializeField] protected float attackableDistance;
+    [SerializeField] protected float attackTimer;
+    [SerializeField] protected int hitPoint;
+    [SerializeField] protected LayerMask playerLayer;
+    protected Collider2D enemyCollider;
+    protected Rigidbody2D enemeyRigidbody;
 
-    [HideInInspector] public float oldAttackTimer;
-    [HideInInspector] public float distance;
+    protected float oldAttackTimer;
+    protected float distance;
 
-    private int hitCounter;
-    private PlayerControl playerControl;
+    protected int hitCounter;
+    protected PlayerControl playerControl;
 
 
     void Awake()
@@ -112,7 +112,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void HitAnimation()
+    public virtual void HitAnimation()
     {
         hitCounter++;
         if (hitCounter >= hitPoint)

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FireWorm : EnemyScript
 {
@@ -9,7 +10,9 @@ public class FireWorm : EnemyScript
     [SerializeField] private GameObject fireballDropTop;
     [SerializeField] private GameObject fireballProjectile;
     [SerializeField] private GameObject endDoor;
+    [SerializeField] private Image hpBarImage;
 
+    float hpFill;
     float fireballTimer = 5;
     float projectileTimer = 10;
 
@@ -83,6 +86,15 @@ public class FireWorm : EnemyScript
     {
         base.Death();
         endDoor.SetActive(true);
+    }
+
+    public override void HitAnimation()
+    {
+        base.HitAnimation();
+
+        hpFill = (float)hitCounter / hitPoint;
+        Debug.Log(hpFill);
+        hpBarImage.fillAmount = (1 - hpFill);
     }
 
     IEnumerator SpawnFireball(float amount)
