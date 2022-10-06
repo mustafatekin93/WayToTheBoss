@@ -248,7 +248,7 @@ AnimatorController:
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 1
+    m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: isRunning
     m_Type: 4
@@ -264,7 +264,7 @@ AnimatorController:
     m_Controller: {fileID: 0}
   - m_Name: playerSpeed
     m_Type: 1
-    m_DefaultFloat: 7
+    m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
@@ -478,7 +478,7 @@ AnimatorStateMachine:
     m_Position: {x: -240, y: 190, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -3785975300789652686}
-    m_Position: {x: 70, y: -100, z: 0}
+    m_Position: {x: 70, y: -90, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 379624795817395978}
     m_Position: {x: 570, y: 280, z: 0}

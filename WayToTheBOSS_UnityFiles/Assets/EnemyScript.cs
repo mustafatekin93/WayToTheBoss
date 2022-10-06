@@ -13,6 +13,7 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] protected float attackableDistance;
     [SerializeField] protected float attackTimer;
     [SerializeField] protected int hitPoint;
+    [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] protected LayerMask playerLayer;
     protected Collider2D enemyCollider;
     protected Rigidbody2D enemeyRigidbody;
@@ -54,7 +55,7 @@ public class EnemyScript : MonoBehaviour
             {
                 MoveToPlayer(true);
             }
-            else if (Mathf.Abs(distance) < attackableDistance)
+            else if (Mathf.Abs(distance) < attackableDistance || Mathf.Abs(distance) > attackableDistance)
             {
                 MoveToPlayer(false);
                 AttackToPlayer();
@@ -79,9 +80,8 @@ public class EnemyScript : MonoBehaviour
                 transform.eulerAngles = new Vector3(0, 180, 0);
             }
 
-            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, playerTransform.position, 0.075f);
-            enemyAnimator.SetBool("isWalking", true);
-            enemyAnimator.SetFloat("playerSpeed", 7);
+            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, playerTransform.position, moveSpeed * Time.deltaTime);
+            WalkAnimation();
         }
 
         else if (condition == false)
@@ -90,10 +90,26 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
+    protected virtual void WalkAnimation()
+    {
+        enemyAnimator.SetBool("isWalking", true);
+        enemyAnimator.SetFloat("playerSpeed", 7);
+    }
+
     protected virtual void IdleAnimation()
     {
         enemyAnimator.SetBool("isWalking", false);
         enemyAnimator.SetFloat("playerSpeed", 0);
+    }
+
+    protected virtual void AttackAnimation()
+    {
+        int index = Random.Range(0, 2);
+        switch (index)
+        {
+            case 0: enemyAnimator.SetTrigger("attack1"); break;
+            case 1: enemyAnimator.SetTrigger("attack2"); break;
+        }
     }
 
     protected virtual void AttackToPlayer()
@@ -103,12 +119,7 @@ public class EnemyScript : MonoBehaviour
         {
             StartCoroutine(hitPlayer(0.25f));
             attackTimer = oldAttackTimer;
-            int index = Random.Range(0, 2);
-            switch (index)
-            {
-                case 0: enemyAnimator.SetTrigger("attack1"); break;
-                case 1: enemyAnimator.SetTrigger("attack2"); break;
-            }
+            AttackAnimation();
         }
     }
 

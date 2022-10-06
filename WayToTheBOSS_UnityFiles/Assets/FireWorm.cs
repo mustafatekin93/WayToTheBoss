@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class FireWorm : EnemyScript
 {
-    [SerializeField] private float moveSpeed;
     [SerializeField] private float attackDelay;
     [SerializeField] private GameObject fireballDropTop;
     [SerializeField] private GameObject fireballProjectile;
@@ -16,29 +15,17 @@ public class FireWorm : EnemyScript
     float fireballTimer = 5;
     float projectileTimer = 10;
 
-    protected override void MoveToPlayer(bool condition)
+    protected override void WalkAnimation()
     {
-        //base.MoveToPlayer();
-
-        if (condition == true)
-        {
-            if (distance > 0)
-            {
-                transform.eulerAngles = new Vector3(0, 0, 0);
-            }
-            else if (distance < 0)
-            {
-                transform.eulerAngles = new Vector3(0, 180, 0);
-            }
-
-            enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, playerTransform.position, 0.1f * moveSpeed);
-            enemyAnimator.SetBool("isWalk", true);
-        }
-
-        else if (condition == false)
-        {
-            enemyAnimator.SetBool("isWalk", false);
-        }
+        enemyAnimator.SetBool("isWalk", true);
+    }
+    protected override void IdleAnimation()
+    {
+        enemyAnimator.SetBool("isWalk", false);
+    }
+    protected override void AttackAnimation()
+    {
+        enemyAnimator.SetTrigger("attack");
     }
 
     protected override void Update()
@@ -64,28 +51,10 @@ public class FireWorm : EnemyScript
         }
     }
 
-    protected override void AttackToPlayer()
-    {
-        //base.AttackToPlayer();
-        attackTimer -= Time.deltaTime;
-        if (attackTimer <= 0)
-        {
-            StartCoroutine(hitPlayer(attackDelay));
-            enemyAnimator.SetTrigger("attack");
-            attackTimer = oldAttackTimer;
-        }
-    }
-
-    protected override void IdleAnimation()
-    {
-        //base.IdleAnimation();
-        enemyAnimator.SetBool("isWalk", false);
-    }
-
     protected override void Death()
     {
         base.Death();
-        endDoor.SetActive(true);
+        StartCoroutine(endDoorActivate());
     }
 
     public override void HitAnimation()
@@ -93,7 +62,6 @@ public class FireWorm : EnemyScript
         base.HitAnimation();
 
         hpFill = (float)hitCounter / hitPoint;
-        Debug.Log(hpFill);
         hpBarImage.fillAmount = (1 - hpFill);
     }
 
@@ -111,5 +79,11 @@ public class FireWorm : EnemyScript
     {
         yield return new WaitForSeconds(1f);
         GameObject _fireball = (GameObject)Instantiate(fireballProjectile, swordPosition.position, Quaternion.identity);
+    }
+
+    IEnumerator endDoorActivate()
+    {
+        yield return new WaitForSeconds(1f);
+        endDoor.SetActive(true);
     }
 }
