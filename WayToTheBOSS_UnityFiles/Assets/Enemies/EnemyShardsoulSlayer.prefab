@@ -80,6 +80,7 @@ MonoBehaviour:
   enemyTransform: {fileID: 303814950248313861}
   swordPosition: {fileID: 303814949272401429}
   enemyAnimator: {fileID: 303814950454376687}
+  halfHP: {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606, type: 3}
   moveableDistance: 7
   attackableDistance: 2
   attackTimer: 1.3
@@ -88,6 +89,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
+  hitRange: 1
 --- !u!60 &303814950248313863
 PolygonCollider2D:
   m_ObjectHideFlags: 0

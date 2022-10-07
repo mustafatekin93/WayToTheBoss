@@ -8,7 +8,7 @@ public class EnemyScript : MonoBehaviour
     protected Transform playerTransform;
     [SerializeField] protected Transform swordPosition;
     [SerializeField] protected Animator enemyAnimator;
-    //[SerializeField] private GameObject halfHP;
+    [SerializeField] private GameObject halfHP;
     [SerializeField] protected float moveableDistance;
     [SerializeField] protected float attackableDistance;
     [SerializeField] protected float attackTimer;
@@ -137,14 +137,10 @@ public class EnemyScript : MonoBehaviour
         if (hitCounter >= hitPoint)
         {
             Death();
-            /*switch (Random.Range(0,2))
+            if (halfHP != null)
             {
-                case 0:
-                    //GameObject _halfHP = (GameObject)Instantiate(halfHP, transform.position, Quaternion.identity);
-                    //_halfHP.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-                    break;
-                default: break;
-            }*/
+                HalfHp();
+            }
             this.enabled = false;
             return;
         }
@@ -195,5 +191,17 @@ public class EnemyScript : MonoBehaviour
         //enemyCollider.isTrigger = true;
         //enemeyRigidbody.isKinematic = true;
         Destroy(gameObject, 3f);
+    }
+
+    void HalfHp()
+    {
+        switch (Random.Range(0, 2))
+        {
+            case 0:
+                GameObject _halfHP = (GameObject)Instantiate(halfHP, transform.position, Quaternion.identity);
+                _halfHP.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                break;
+            default: break;
+        }
     }
 }

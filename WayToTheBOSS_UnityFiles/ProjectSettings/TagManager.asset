@@ -9,6 +9,7 @@ TagManager:
   - cam
   - DialogueArea
   - Enemy
+  - HalfHp
   layers:
   - Default
   - TransparentFX

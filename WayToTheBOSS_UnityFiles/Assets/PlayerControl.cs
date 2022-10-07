@@ -84,6 +84,8 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        hpImage.sprite = hpSprites[hitCounter];
+
         if (!DialogueSystem.inDialogue)
         {
             CharacterMovement();
@@ -229,6 +231,7 @@ public class PlayerControl : MonoBehaviour
         hitCounter++;
         if (hitCounter >= playerHitPoint)
         {
+
             gameOverScreen.SetActive(true);
             stopMove();
             animator.SetBool("isDead", true);
@@ -250,9 +253,10 @@ public class PlayerControl : MonoBehaviour
         sr.color = Color.white;
     }
 
-    /*void OnCollisionEnter2D(Collision2D col)
+    //Karakterin yerden can alması
+    void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.transform.tag == "halfHp")
+        if (col.transform.tag == "HalfHp")
         {
             Destroy(col.gameObject);
             hitCounter--;
@@ -261,7 +265,7 @@ public class PlayerControl : MonoBehaviour
                 hitCounter = 0;
             }
         }
-    }*/
+    }
 
 
     //Karakterin düşmana hasar vemesi
