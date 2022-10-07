@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private float jumpForce;
-    [SerializeField] private int playerHitPoint;
+    private int playerHitPoint = 9;
 
 
     private bool isGrounded;
@@ -43,6 +43,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject gameOverScreen;
 
+    [SerializeField] private Image hpImage;
+    [SerializeField] private Sprite[] hpSprites;
     private int hitCounter = 0;
 
     void Start()

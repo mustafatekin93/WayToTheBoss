@@ -15,11 +15,14 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] protected int hitPoint;
     [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] protected LayerMask playerLayer;
+    [SerializeField] protected float hitRange = 1f;
     protected Collider2D enemyCollider;
     protected Rigidbody2D enemeyRigidbody;
 
+
     protected float oldAttackTimer;
     protected float distance;
+    protected float distanceAbs;
 
     protected int hitCounter;
     protected PlayerControl playerControl;
@@ -48,17 +51,23 @@ public class EnemyScript : MonoBehaviour
             return;
 
         distance = playerTransform.position.x - enemyTransform.position.x;
+        distanceAbs = Mathf.Abs(distance);
+
 
         if (!DialogueSystem.inDialogue)
         {
-            if (Mathf.Abs(distance) < moveableDistance && Mathf.Abs(distance) > attackableDistance && Mathf.Abs(playerTransform.position.y - enemyTransform.position.y) <= 3)
+            if (distanceAbs < moveableDistance && distanceAbs > attackableDistance && Mathf.Abs(playerTransform.position.y - enemyTransform.position.y) < 4)
             {
                 MoveToPlayer(true);
             }
-            else if (Mathf.Abs(distance) < attackableDistance || Mathf.Abs(distance) > attackableDistance)
+            else if (distanceAbs < attackableDistance)
             {
                 MoveToPlayer(false);
                 AttackToPlayer();
+            }
+            else
+            {
+                MoveToPlayer(false);
             }
         }
         else
@@ -83,8 +92,7 @@ public class EnemyScript : MonoBehaviour
             enemyTransform.position = Vector2.MoveTowards(enemyTransform.position, playerTransform.position, moveSpeed * Time.deltaTime);
             WalkAnimation();
         }
-
-        else if (condition == false)
+        else
         {
             IdleAnimation();
         }
@@ -154,7 +162,7 @@ public class EnemyScript : MonoBehaviour
     protected virtual IEnumerator hitPlayer(float attackDelay)
     {
         yield return new WaitForSeconds(attackDelay);
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordPosition.position, 1, playerLayer);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(swordPosition.position, hitRange, playerLayer);
         foreach (Collider2D enemy in hitEnemies)
         {
             PlayerControl hit = enemy.transform.GetComponent<PlayerControl>();
@@ -166,7 +174,7 @@ public class EnemyScript : MonoBehaviour
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.magenta;
-        Gizmos.DrawWireSphere(swordPosition.position, 1);
+        Gizmos.DrawWireSphere(swordPosition.position, hitRange);
     }
 
     IEnumerator Hit()

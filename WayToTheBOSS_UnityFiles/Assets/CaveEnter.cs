@@ -18,9 +18,9 @@ public class CaveEnter : MonoBehaviour
                 fadeAnimator.SetTrigger("isStart");
                 playerControl.stopMove();
                 playerControl.enabled = false;
-                yield return new WaitForSeconds(1.5f);
+                yield return new WaitForSeconds(0.5f);
                 col.transform.position = exitPosition.position;
-                yield return new WaitForSeconds(0.75f);
+                yield return new WaitForSeconds(0.5f);
                 fadeAnimator.SetTrigger("isEnd");
                 playerControl.enabled = true;
             }

@@ -13,6 +13,7 @@ public class DialogueSystem : MonoBehaviour
     public float textSpeed;
     public float dialogueDelay;
     public GameObject activeEndOfDialogue;
+    public GameObject disableEndOfDialogue;
 
     public static bool inDialogue { get; private set; } //dialoğun aktif olup olmadığını görmek için static olarak kullanıldı, player ve enemy scriptlerinde eğer dialog varsa, hareket ettirilmeyecek
 
@@ -68,6 +69,11 @@ public class DialogueSystem : MonoBehaviour
             {
                 activeEndOfDialogue.SetActive(true);
             }
+            if (disableEndOfDialogue != null)
+            {
+                disableEndOfDialogue.SetActive(false);
+            }
+
             inDialogue = false;
             gameObject.SetActive(false);
         }
