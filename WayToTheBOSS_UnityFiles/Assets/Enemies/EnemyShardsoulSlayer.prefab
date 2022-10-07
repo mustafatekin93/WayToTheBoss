@@ -84,7 +84,7 @@ MonoBehaviour:
   attackableDistance: 2
   attackTimer: 1.3
   hitPoint: 7
-  moveSpeed: 2
+  moveSpeed: 5
   playerLayer:
     serializedVersion: 2
     m_Bits: 512

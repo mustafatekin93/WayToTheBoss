@@ -106,7 +106,7 @@ MonoBehaviour:
   attackableDistance: 3
   attackTimer: 1.5
   hitPoint: 5
-  moveSpeed: 0.5
+  moveSpeed: 4
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
