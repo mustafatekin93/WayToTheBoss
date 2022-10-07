@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 6286582357249082542}
   m_Layer: 10
   m_Name: EnemySkeleton
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -104,6 +104,7 @@ MonoBehaviour:
   enemyAnimator: {fileID: 6286582357858323096}
   halfHP: {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606, type: 3}
   moveableDistance: 5
+  moveableVerticalDistance: 4
   attackableDistance: 3
   attackTimer: 1.5
   hitPoint: 5

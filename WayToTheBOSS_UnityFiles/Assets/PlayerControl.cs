@@ -32,8 +32,12 @@ public class PlayerControl : MonoBehaviour
     private float jumpBufferTime = 0.3f;
     private float jumpBufferCounter;
 
-    private float attackTime = 0.25f;
+    private float attackTime = 0.5f;
     private float attackTimeCounter;
+
+    private float HitTime = 1f;
+    private float HitTimeCounter = 0f;
+
 
     public static bool isPaused { get; private set; }
 
@@ -83,6 +87,10 @@ public class PlayerControl : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
+
+        HitTimeCounter -= Time.deltaTime;
+        if (HitTimeCounter <= 0)
+            HitTimeCounter = 0;
 
         hpImage.sprite = hpSprites[hitCounter];
 
@@ -228,20 +236,24 @@ public class PlayerControl : MonoBehaviour
     //karakterin hasar yemesi
     public void GetHit()
     {
-        hitCounter++;
-        if (hitCounter >= playerHitPoint)
+        if (HitTimeCounter <= 0)
         {
+            HitTimeCounter = HitTime;
+            hitCounter++;
+            if (hitCounter >= playerHitPoint)
+            {
 
-            gameOverScreen.SetActive(true);
-            stopMove();
-            animator.SetBool("isDead", true);
-            Destroy(gameObject, 3);
-            this.enabled = false;
-        }
-        else
-        {
-            animator.SetTrigger("hit");
-            StartCoroutine(Hit());
+                gameOverScreen.SetActive(true);
+                stopMove();
+                animator.SetBool("isDead", true);
+                Destroy(gameObject, 3);
+                this.enabled = false;
+            }
+            else
+            {
+                animator.SetTrigger("hit");
+                StartCoroutine(Hit());
+            }
         }
     }
 
@@ -297,7 +309,7 @@ public class PlayerControl : MonoBehaviour
     {
         if (col.transform.tag == "Enemy")
         {
-            StartCoroutine(Hit());
+            GetHit();
         }
     }
 }

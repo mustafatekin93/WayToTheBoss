@@ -10,12 +10,14 @@ public class EnemyScript : MonoBehaviour
     [SerializeField] protected Animator enemyAnimator;
     [SerializeField] private GameObject halfHP;
     [SerializeField] protected float moveableDistance;
+    [SerializeField] protected float moveableVerticalDistance = 4f;
     [SerializeField] protected float attackableDistance;
     [SerializeField] protected float attackTimer;
     [SerializeField] protected int hitPoint;
     [SerializeField] protected float moveSpeed = 2f;
     [SerializeField] protected LayerMask playerLayer;
     [SerializeField] protected float hitRange = 1f;
+
     protected Collider2D enemyCollider;
     protected Rigidbody2D enemeyRigidbody;
 
@@ -56,7 +58,7 @@ public class EnemyScript : MonoBehaviour
 
         if (!DialogueSystem.inDialogue)
         {
-            if (distanceAbs < moveableDistance && distanceAbs > attackableDistance && Mathf.Abs(playerTransform.position.y - enemyTransform.position.y) < 4)
+            if (distanceAbs < moveableDistance && distanceAbs > attackableDistance && Mathf.Abs(playerTransform.position.y - enemyTransform.position.y) < moveableVerticalDistance)
             {
                 MoveToPlayer(true);
             }
