@@ -40,8 +40,8 @@ GameObject:
   m_Component:
   - component: {fileID: 303814950248313861}
   - component: {fileID: 303814950248313880}
-  - component: {fileID: 303814950248313863}
   - component: {fileID: 303814950248313862}
+  - component: {fileID: 71896130224012552}
   m_Layer: 10
   m_Name: EnemyShardsoulSlayer
   m_TagString: Enemy
@@ -87,40 +87,12 @@ MonoBehaviour:
   moveableVerticalDistance: 3
   attackableDistance: 2
   attackTimer: 1.3
-  hitPoint: 7
+  hitPoint: 5
   moveSpeed: 6
   playerLayer:
     serializedVersion: 2
     m_Bits: 512
   hitRange: 1
---- !u!60 &303814950248313863
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 303814950248313860}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.42557502, y: -1.656946}
-      - {x: 0.10252136, y: -0.008499354}
-      - {x: -0.4529571, y: -1.6618913}
 --- !u!50 &303814950248313862
 Rigidbody2D:
   serializedVersion: 4
@@ -142,6 +114,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!70 &71896130224012552
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 303814950248313860}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.09, y: -0.83}
+  m_Size: {x: 0.36, y: 1.76}
+  m_Direction: 0
 --- !u!1 &303814950454376685
 GameObject:
   m_ObjectHideFlags: 0

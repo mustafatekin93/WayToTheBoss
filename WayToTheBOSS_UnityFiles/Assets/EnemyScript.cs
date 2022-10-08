@@ -203,25 +203,13 @@ public class EnemyScript : MonoBehaviour
     {
         Rigidbody2D rigidbody;
         Collider2D collider;
-        switch ((int)Random.Range(0, 2))
-        {
-            case 0:
-                GameObject _halfHP = (GameObject)Instantiate(dropOnDeath[0], transform.position, Quaternion.identity);
-                rigidbody = _halfHP.GetComponent<Rigidbody2D>();
-                collider = _halfHP.GetComponent<Collider2D>();
-                rigidbody.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
-                StartCoroutine(dropKinematic());
-                break;
 
-            case 1:
-                GameObject _bone = (GameObject)Instantiate(dropOnDeath[1], transform.position, Quaternion.identity);
-                rigidbody = _bone.GetComponent<Rigidbody2D>();
-                collider = _bone.GetComponent<Collider2D>();
-                rigidbody.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
-                StartCoroutine(dropKinematic());
-                break;
-            default: break;
-        }
+        int randomIndex = (int)Random.Range(0, dropOnDeath.Length);
+        GameObject dropItem = (GameObject)Instantiate(dropOnDeath[randomIndex], transform.position, Quaternion.identity);
+        rigidbody = dropItem.GetComponent<Rigidbody2D>();
+        collider = dropItem.GetComponent<Collider2D>();
+        rigidbody.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
+        StartCoroutine(dropKinematic());
 
         IEnumerator dropKinematic()
         {

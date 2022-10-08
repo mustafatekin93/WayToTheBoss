@@ -19,6 +19,17 @@ public class LevelTransition : MonoBehaviour
         }
     }
 
+    public void restartAnimation()
+    {
+        StartCoroutine(reloadLevel());
+        IEnumerator reloadLevel()
+        {
+            fadeAnimator.SetTrigger("isStart");
+            yield return new WaitForSeconds(waitTime);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+    }
+
 
     public void startFadeInAndOut()
     {

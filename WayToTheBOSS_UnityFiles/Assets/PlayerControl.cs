@@ -52,7 +52,7 @@ public class PlayerControl : MonoBehaviour
     private int hitCounter = 0;
 
     [SerializeField] private TMP_Text boneCounterText;
-    private int boneCounter = 30;
+    private int boneCounter = 0;
 
     [SerializeField] private Image skullImage;
     [SerializeField] private Sprite[] skullSprites;
@@ -60,6 +60,9 @@ public class PlayerControl : MonoBehaviour
 
     [SerializeField] private GameObject endGameDoor;
 
+    [SerializeField] private AudioClip[] swordSwingSounds;
+    [SerializeField] private AudioClip[] hitSounds;
+    [SerializeField] private AudioClip[] pickUpSounds;
 
     void OnDrawGizmos()
     {
@@ -259,6 +262,9 @@ public class PlayerControl : MonoBehaviour
             case 0: animator.SetTrigger("attack1"); break;
             case 1: animator.SetTrigger("attack2"); break;
         }
+
+        int soundIndex = Random.Range(0, swordSwingSounds.Length);
+        SoundManager.instance.PlaySound(swordSwingSounds[soundIndex]);
         StartCoroutine(hitEnemy());
     }
 
@@ -294,11 +300,18 @@ public class PlayerControl : MonoBehaviour
         sr.color = Color.white;
     }
 
+
+    void PlayPickUpSound()
+    {
+        int randomIndex = Random.Range(0, pickUpSounds.Length);
+        SoundManager.instance.PlaySound(pickUpSounds[randomIndex]);
+    }
     //Karakterin yerden can ve kemik alması
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.transform.tag == "HalfHp")
         {
+            PlayPickUpSound();
             Destroy(col.gameObject);
             hitCounter--;
             if (hitCounter <= 0)
@@ -307,19 +320,40 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        if (col.transform.tag == "FullHp")
+        {
+            PlayPickUpSound();
+            Destroy(col.gameObject);
+            hitCounter -= 2;
+            if (hitCounter <= 0)
+            {
+                hitCounter = 0;
+            }
+        }
+
         if (col.transform.tag == "Bone")
         {
+            PlayPickUpSound();
             Destroy(col.gameObject);
             boneCounter++;
         }
 
+        if (col.transform.tag == "Bones")
+        {
+            PlayPickUpSound();
+            Destroy(col.gameObject);
+            boneCounter += 2;
+        }
+
         if (col.transform.tag == "Skull")
         {
+            PlayPickUpSound();
             Destroy(col.gameObject);
             skullCounter++;
         }
         if (col.transform.tag == "Key")
         {
+            PlayPickUpSound();
             endGameDoor.SetActive(true);
         }
     }
@@ -351,6 +385,8 @@ public class PlayerControl : MonoBehaviour
             if (enemy.TryGetComponent<EnemyScript>(out EnemyScript es))
             {
                 es = enemy.transform.GetComponent<EnemyScript>();
+                int randomIndex = Random.Range(0, hitSounds.Length);
+                SoundManager.instance.PlaySound(hitSounds[randomIndex]);
                 es.HitAnimation();
             }
             /*if (enemy.TryGetComponent<FantasyWarrior>(out FantasyWarrior fw))

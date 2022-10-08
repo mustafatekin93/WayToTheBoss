@@ -22,7 +22,13 @@ public class MainMenu_Actions : MonoBehaviour
 
     public void ButtonPressedExit()
     {
+        Application.Quit();
         Debug.Log("EXIT");
+    }
+
+    public void ButtonPressedReload()
+    {
+        levelLoader.restartAnimation();
     }
 
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3760544442779045743}
   - component: {fileID: 3760544442779045728}
   - component: {fileID: 3760544442779045729}
-  - component: {fileID: 3760544442779045730}
+  - component: {fileID: 3703692368022210004}
   m_Layer: 10
   m_Name: EnemyGoblin
   m_TagString: Enemy
@@ -53,10 +53,12 @@ MonoBehaviour:
   dropOnDeath:
   - {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606, type: 3}
   - {fileID: 7708916761621330872, guid: 5b2fdd2c25875c348a541c837aab23e0, type: 3}
+  - {fileID: 2138191363739571585, guid: 85ce6d67f8dcd6a4288b72b6bcb7023e, type: 3}
+  - {fileID: 939166458720330558, guid: d4b567468cebe234697d0e3da06a5f22, type: 3}
   moveableDistance: 15
   moveableVerticalDistance: 3
   attackableDistance: 2
-  attackTimer: 1.2
+  attackTimer: 1.5
   hitPoint: 3
   moveSpeed: 8
   playerLayer:
@@ -84,8 +86,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!60 &3760544442779045730
-PolygonCollider2D:
+--- !u!70 &3703692368022210004
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -97,21 +99,9 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.27998602, y: -1.602154}
-      - {x: 0.20179576, y: 0.35842365}
-      - {x: -0.53838485, y: -1.5995431}
+  m_Offset: {x: -0.03, y: -0.4}
+  m_Size: {x: 0.34, y: 2.52}
+  m_Direction: 0
 --- !u!1 &3760544444150132581
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,7 +173,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 1290532464073988732, guid: 4179c90a1565c594a978423f3bc38afc,
+  m_Sprite: {fileID: 8284087734974297348, guid: f2e7bade73d794d4787241a8eb0e2ce5,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
