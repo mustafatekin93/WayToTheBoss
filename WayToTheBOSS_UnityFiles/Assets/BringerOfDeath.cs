@@ -52,6 +52,27 @@ public class BringerOfDeath : EnemyScript
         endDialogue.SetActive(true);
     }
 
+    protected override void DropOnDeath()
+    {
+        //base.DropOnDeath();
+        Rigidbody2D rigidbody;
+        Collider2D collider;
+
+        GameObject _skull = (GameObject)Instantiate(dropOnDeath[0], transform.position, Quaternion.identity);
+        rigidbody = _skull.GetComponent<Rigidbody2D>();
+        collider = _skull.GetComponent<Collider2D>();
+        rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+        StartCoroutine(dropKinematic());
+
+        IEnumerator dropKinematic()
+        {
+            yield return new WaitForSeconds(0.5f);
+            rigidbody.isKinematic = true;
+            rigidbody.velocity = Vector2.zero;
+            collider.isTrigger = true;
+        }
+    }
+
     public override void HitAnimation()
     {
         base.HitAnimation();

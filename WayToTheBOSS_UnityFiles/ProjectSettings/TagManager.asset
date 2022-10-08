@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - HalfHp
   - Bone
+  - Skull
+  - Key
   layers:
   - Default
   - TransparentFX

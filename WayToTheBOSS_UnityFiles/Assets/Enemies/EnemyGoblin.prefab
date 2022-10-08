@@ -56,7 +56,7 @@ MonoBehaviour:
   moveableDistance: 15
   moveableVerticalDistance: 3
   attackableDistance: 2
-  attackTimer: 0.9
+  attackTimer: 1.2
   hitPoint: 3
   moveSpeed: 8
   playerLayer:

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CaveEnter : MonoBehaviour
+public class DoorEnter_Boss : MonoBehaviour
 {
     [SerializeField] private Animator fadeAnimator;
     [SerializeField] private Transform exitPosition;
@@ -10,6 +10,7 @@ public class CaveEnter : MonoBehaviour
     [SerializeField] private GameObject costImage;
     [SerializeField] private bool isUnlocked = false;
     [SerializeField] private int doorCost;
+
     void OnTriggerStay2D(Collider2D col)
     {
         if (col.transform.tag == "Player" && Input.GetKeyDown(KeyCode.UpArrow))
@@ -17,12 +18,14 @@ public class CaveEnter : MonoBehaviour
             PlayerControl playerControl = col.transform.gameObject.GetComponent<PlayerControl>();
             if (isUnlocked == false)
             {
-                if (playerControl.getBoneCount() >= doorCost)
+                if (playerControl.getSkullCount() >= doorCost)
                 {
                     isUnlocked = true;
-                    playerControl.subtractBones(doorCost);
-                    costImage.SetActive(false);
-                    unlockEffect.Play(true);
+
+                    if (costImage != null)
+                        costImage.SetActive(false);
+                    if (unlockEffect != null)
+                        unlockEffect.Play(true);
                 }
 
             }

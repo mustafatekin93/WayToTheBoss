@@ -74,6 +74,26 @@ public class SkeletonSeeker : EnemyScript
         }
     }
 
+    protected override void DropOnDeath()
+    {
+        //base.DropOnDeath();
+        Rigidbody2D rigidbody;
+        Collider2D collider;
+
+        GameObject _key = (GameObject)Instantiate(dropOnDeath[0], transform.position, Quaternion.identity);
+        rigidbody = _key.GetComponent<Rigidbody2D>();
+        collider = _key.GetComponent<Collider2D>();
+        rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+        StartCoroutine(dropKinematic());
+
+        IEnumerator dropKinematic()
+        {
+            yield return new WaitForSeconds(0.5f);
+            rigidbody.isKinematic = true;
+            rigidbody.velocity = Vector2.zero;
+            collider.isTrigger = true;
+        }
+    }
     void OnDrawGizmos()
     {
         // Draw a yellow sphere at the transform's position

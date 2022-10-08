@@ -186,9 +186,10 @@ public class EnemyScript : MonoBehaviour
 
     protected virtual void Death()
     {
-        enemyAnimator.SetTrigger("isDead");
         Destroy(enemeyRigidbody);
         Destroy(enemyCollider);
+        enemyAnimator.SetTrigger("isDead");
+
         if (dropOnDeath != null)
         {
             DropOnDeath();
@@ -208,7 +209,7 @@ public class EnemyScript : MonoBehaviour
                 GameObject _halfHP = (GameObject)Instantiate(dropOnDeath[0], transform.position, Quaternion.identity);
                 rigidbody = _halfHP.GetComponent<Rigidbody2D>();
                 collider = _halfHP.GetComponent<Collider2D>();
-                rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                rigidbody.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
                 StartCoroutine(dropKinematic());
                 break;
 
@@ -216,7 +217,7 @@ public class EnemyScript : MonoBehaviour
                 GameObject _bone = (GameObject)Instantiate(dropOnDeath[1], transform.position, Quaternion.identity);
                 rigidbody = _bone.GetComponent<Rigidbody2D>();
                 collider = _bone.GetComponent<Collider2D>();
-                rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                rigidbody.AddForce(new Vector2(0, 7), ForceMode2D.Impulse);
                 StartCoroutine(dropKinematic());
                 break;
             default: break;
@@ -224,7 +225,7 @@ public class EnemyScript : MonoBehaviour
 
         IEnumerator dropKinematic()
         {
-            yield return new WaitForSeconds(0.9f);
+            yield return new WaitForSeconds(0.45f);
             rigidbody.isKinematic = true;
             rigidbody.velocity = Vector2.zero;
             collider.isTrigger = true;

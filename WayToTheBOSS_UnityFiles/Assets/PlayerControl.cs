@@ -52,11 +52,21 @@ public class PlayerControl : MonoBehaviour
     private int hitCounter = 0;
 
     [SerializeField] private TMP_Text boneCounterText;
-    private int boneCounter = 10;
+    private int boneCounter = 30;
 
     [SerializeField] private Image skullImage;
     [SerializeField] private Sprite[] skullSprites;
     private int skullCounter = 0;
+
+    [SerializeField] private GameObject endGameDoor;
+
+
+    void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(swordPoint.position, swordRange);
+    }
 
     void Start()
     {
@@ -104,11 +114,11 @@ public class PlayerControl : MonoBehaviour
         boneCounterText.text = ": " + boneCounter.ToString();
 
         skullImage.sprite = skullSprites[skullCounter];
-        if(Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             skullCounter++;
         }
-          if(Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             skullCounter--;
         }
@@ -303,10 +313,14 @@ public class PlayerControl : MonoBehaviour
             boneCounter++;
         }
 
-         if (col.transform.tag == "Skull")
+        if (col.transform.tag == "Skull")
         {
             Destroy(col.gameObject);
             skullCounter++;
+        }
+        if (col.transform.tag == "Key")
+        {
+            endGameDoor.SetActive(true);
         }
     }
 
@@ -319,6 +333,13 @@ public class PlayerControl : MonoBehaviour
     {
         boneCounter -= bone;
     }
+
+    public int getSkullCount()
+    {
+        return skullCounter;
+    }
+
+
 
     //Karakterin düşmana hasar vemesi
     IEnumerator hitEnemy()
