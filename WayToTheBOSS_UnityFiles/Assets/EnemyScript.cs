@@ -8,7 +8,7 @@ public class EnemyScript : MonoBehaviour
     protected Transform playerTransform;
     [SerializeField] protected Transform swordPosition;
     [SerializeField] protected Animator enemyAnimator;
-    [SerializeField] private GameObject halfHP;
+    [SerializeField] private GameObject dropOnDeath;
     [SerializeField] protected float moveableDistance;
     [SerializeField] protected float moveableVerticalDistance = 4f;
     [SerializeField] protected float attackableDistance;
@@ -139,10 +139,7 @@ public class EnemyScript : MonoBehaviour
         if (hitCounter >= hitPoint)
         {
             Death();
-            if (halfHP != null)
-            {
-                HalfHp();
-            }
+
             this.enabled = false;
             return;
         }
@@ -177,7 +174,7 @@ public class EnemyScript : MonoBehaviour
 
     IEnumerator Hit()
     {
-        attackTimer = oldAttackTimer;
+        attackTimer = oldAttackTimer * 0.25f;
         SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
         Color oldColor = sr.color;
         sr.color = Color.red;
@@ -190,20 +187,38 @@ public class EnemyScript : MonoBehaviour
         enemyAnimator.SetTrigger("isDead");
         Destroy(enemeyRigidbody);
         Destroy(enemyCollider);
+        if (dropOnDeath != null)
+        {
+            DropOnDeath();
+        }
         //enemyCollider.isTrigger = true;
         //enemeyRigidbody.isKinematic = true;
         Destroy(gameObject, 3f);
     }
 
-    void HalfHp()
+    protected virtual void DropOnDeath()
     {
-        switch (Random.Range(0, 2))
+        Rigidbody2D hpRB;
+        Collider2D hpCol;
+        switch ((int)Random.Range(0, 2))
         {
             case 0:
-                GameObject _halfHP = (GameObject)Instantiate(halfHP, transform.position, Quaternion.identity);
-                _halfHP.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                GameObject _halfHP = (GameObject)Instantiate(dropOnDeath, transform.position, Quaternion.identity);
+                hpRB = _halfHP.GetComponent<Rigidbody2D>();
+                hpCol = _halfHP.GetComponent<Collider2D>();
+                hpRB.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                StartCoroutine(HalfHpKinematic());
                 break;
             default: break;
         }
+
+        IEnumerator HalfHpKinematic()
+        {
+            yield return new WaitForSeconds(0.9f);
+            hpRB.isKinematic = true;
+            hpRB.velocity = Vector2.zero;
+            hpCol.isTrigger = true;
+        }
     }
+
 }

@@ -19,16 +19,16 @@ public class FireBall_DropTop : MonoBehaviour
     {
         fireballRB.velocity = Vector2.zero;
         playerPositionX = GameObject.Find("Player").transform.position.x;
-        float spawnPosition = Random.Range(playerPositionX - 7, playerPositionX + 7);
-        transform.position = new Vector2(spawnPosition, -1);
+        float spawnPositionX = Random.Range(playerPositionX - 7, playerPositionX + 7);
+        transform.position = new Vector2(spawnPositionX, -1);
     }
 
     void Update()
     {
         if (transform.position.y < -20)
         {
-            SpawnRandom();
-            //Destroy(gameObject);
+            //SpawnRandom();
+            Destroy(gameObject);
         }
     }
 

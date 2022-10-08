@@ -48,4 +48,4 @@ MonoBehaviour:
   - {fileID: 6286582357249082531, guid: 80264ab6065141746a8e8477cb2508bd, type: 3}
   - {fileID: 3760544442779045731, guid: b3190fea2c35380469e6504d95f53fe2, type: 3}
   spawnDistance: 25
-  respawnDistance: 45
+  respawnDistance: 15

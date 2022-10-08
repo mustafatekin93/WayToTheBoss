@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviour
     private float jumpBufferTime = 0.3f;
     private float jumpBufferCounter;
 
-    private float attackTime = 0.5f;
+    private float attackTime = 0.33f;
     private float attackTimeCounter;
 
     private float HitTime = 1f;
@@ -266,7 +266,7 @@ public class PlayerControl : MonoBehaviour
     }
 
     //Karakterin yerden can alması
-    void OnCollisionEnter2D(Collision2D col)
+    void OnTriggerEnter2D(Collider2D col)
     {
         if (col.transform.tag == "HalfHp")
         {

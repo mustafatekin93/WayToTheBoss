@@ -47,7 +47,6 @@ public class SkeletonSeeker : EnemyScript
 
     protected override void Update()
     {
-        Debug.Log(canMove);
 
         if (!canMove)
         {
