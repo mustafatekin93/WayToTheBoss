@@ -14,7 +14,7 @@ public class FireBall_Projectile : MonoBehaviour
     void Awake()
     {
         Player = GameObject.Find("Player");
-        Destroy(gameObject, 10);
+        Destroy(gameObject, Random.Range(3,10));
     }
 
     void Update()

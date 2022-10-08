@@ -51,6 +51,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Sprite[] hpSprites;
     private int hitCounter = 0;
 
+    [SerializeField] private TMP_Text boneCounterText;
+    private int boneCounter = 0;
+
     void Start()
     {
         isPaused = false;
@@ -93,6 +96,8 @@ public class PlayerControl : MonoBehaviour
             HitTimeCounter = 0;
 
         hpImage.sprite = hpSprites[hitCounter];
+
+        boneCounterText.text = boneCounter.ToString();
 
         if (!DialogueSystem.inDialogue)
         {
@@ -265,7 +270,7 @@ public class PlayerControl : MonoBehaviour
         sr.color = Color.white;
     }
 
-    //Karakterin yerden can alması
+    //Karakterin yerden can ve kemik alması
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.transform.tag == "HalfHp")
@@ -277,6 +282,22 @@ public class PlayerControl : MonoBehaviour
                 hitCounter = 0;
             }
         }
+
+        if (col.transform.tag == "bone")
+        {
+            Destroy(col.gameObject);
+            boneCounter++;
+        }
+    }
+
+    public int getBoneCount()
+    {
+        return boneCounter;
+    }
+
+    public void getBones(int bone)
+    {
+        boneCounter -= bone;
     }
 
 
