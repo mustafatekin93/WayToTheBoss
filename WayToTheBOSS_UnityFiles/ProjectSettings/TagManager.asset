@@ -10,6 +10,7 @@ TagManager:
   - DialogueArea
   - Enemy
   - HalfHp
+  - Bone
   layers:
   - Default
   - TransparentFX

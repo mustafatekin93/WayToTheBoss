@@ -39,8 +39,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6286582357249082543}
-  - component: {fileID: 6286582357249082541}
   - component: {fileID: 6286582357249082540}
+  - component: {fileID: 6286582357249082541}
   - component: {fileID: 6286582357249082542}
   m_Layer: 10
   m_Name: EnemySkeleton
@@ -66,6 +66,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &6286582357249082540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286582357249082531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd5b6c782b210e9479342ed5022ec933, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTransform: {fileID: 6286582357249082543}
+  swordPosition: {fileID: 6286582357528261125}
+  enemyAnimator: {fileID: 6286582357858323096}
+  dropOnDeath:
+  - {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606, type: 3}
+  - {fileID: 7708916761621330872, guid: 5b2fdd2c25875c348a541c837aab23e0, type: 3}
+  moveableDistance: 15
+  moveableVerticalDistance: 3
+  attackableDistance: 3
+  attackTimer: 1.5
+  hitPoint: 5
+  moveSpeed: 5
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  hitRange: 1
 --- !u!50 &6286582357249082541
 Rigidbody2D:
   serializedVersion: 4
@@ -87,33 +115,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &6286582357249082540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6286582357249082531}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd5b6c782b210e9479342ed5022ec933, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyTransform: {fileID: 6286582357249082543}
-  swordPosition: {fileID: 6286582357528261125}
-  enemyAnimator: {fileID: 6286582357858323096}
-  dropOnDeath: {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606,
-    type: 3}
-  moveableDistance: 15
-  moveableVerticalDistance: 3
-  attackableDistance: 3
-  attackTimer: 1.5
-  hitPoint: 5
-  moveSpeed: 5
-  playerLayer:
-    serializedVersion: 2
-    m_Bits: 512
-  hitRange: 1
 --- !u!60 &6286582357249082542
 PolygonCollider2D:
   m_ObjectHideFlags: 0

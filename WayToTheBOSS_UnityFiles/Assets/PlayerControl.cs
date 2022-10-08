@@ -52,7 +52,11 @@ public class PlayerControl : MonoBehaviour
     private int hitCounter = 0;
 
     [SerializeField] private TMP_Text boneCounterText;
-    private int boneCounter = 0;
+    private int boneCounter = 10;
+
+    [SerializeField] private Image skullImage;
+    [SerializeField] private Sprite[] skullSprites;
+    private int skullCounter = 0;
 
     void Start()
     {
@@ -97,7 +101,17 @@ public class PlayerControl : MonoBehaviour
 
         hpImage.sprite = hpSprites[hitCounter];
 
-        boneCounterText.text = boneCounter.ToString();
+        boneCounterText.text = ": " + boneCounter.ToString();
+
+        skullImage.sprite = skullSprites[skullCounter];
+        if(Input.GetKeyDown(KeyCode.U))
+        {
+            skullCounter++;
+        }
+          if(Input.GetKeyDown(KeyCode.Y))
+        {
+            skullCounter--;
+        }
 
         if (!DialogueSystem.inDialogue)
         {
@@ -283,10 +297,16 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if (col.transform.tag == "bone")
+        if (col.transform.tag == "Bone")
         {
             Destroy(col.gameObject);
             boneCounter++;
+        }
+
+         if (col.transform.tag == "Skull")
+        {
+            Destroy(col.gameObject);
+            skullCounter++;
         }
     }
 
@@ -295,11 +315,10 @@ public class PlayerControl : MonoBehaviour
         return boneCounter;
     }
 
-    public void getBones(int bone)
+    public void subtractBones(int bone)
     {
         boneCounter -= bone;
     }
-
 
     //Karakterin düşmana hasar vemesi
     IEnumerator hitEnemy()

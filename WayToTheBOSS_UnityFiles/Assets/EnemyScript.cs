@@ -8,7 +8,9 @@ public class EnemyScript : MonoBehaviour
     protected Transform playerTransform;
     [SerializeField] protected Transform swordPosition;
     [SerializeField] protected Animator enemyAnimator;
-    [SerializeField] private GameObject dropOnDeath;
+
+    [SerializeField] protected GameObject[] dropOnDeath;
+
     [SerializeField] protected float moveableDistance;
     [SerializeField] protected float moveableVerticalDistance = 4f;
     [SerializeField] protected float attackableDistance;
@@ -198,26 +200,34 @@ public class EnemyScript : MonoBehaviour
 
     protected virtual void DropOnDeath()
     {
-        Rigidbody2D hpRB;
-        Collider2D hpCol;
+        Rigidbody2D rigidbody;
+        Collider2D collider;
         switch ((int)Random.Range(0, 2))
         {
             case 0:
-                GameObject _halfHP = (GameObject)Instantiate(dropOnDeath, transform.position, Quaternion.identity);
-                hpRB = _halfHP.GetComponent<Rigidbody2D>();
-                hpCol = _halfHP.GetComponent<Collider2D>();
-                hpRB.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-                StartCoroutine(HalfHpKinematic());
+                GameObject _halfHP = (GameObject)Instantiate(dropOnDeath[0], transform.position, Quaternion.identity);
+                rigidbody = _halfHP.GetComponent<Rigidbody2D>();
+                collider = _halfHP.GetComponent<Collider2D>();
+                rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                StartCoroutine(dropKinematic());
+                break;
+
+            case 1:
+                GameObject _bone = (GameObject)Instantiate(dropOnDeath[1], transform.position, Quaternion.identity);
+                rigidbody = _bone.GetComponent<Rigidbody2D>();
+                collider = _bone.GetComponent<Collider2D>();
+                rigidbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
+                StartCoroutine(dropKinematic());
                 break;
             default: break;
         }
 
-        IEnumerator HalfHpKinematic()
+        IEnumerator dropKinematic()
         {
             yield return new WaitForSeconds(0.9f);
-            hpRB.isKinematic = true;
-            hpRB.velocity = Vector2.zero;
-            hpCol.isTrigger = true;
+            rigidbody.isKinematic = true;
+            rigidbody.velocity = Vector2.zero;
+            collider.isTrigger = true;
         }
     }
 

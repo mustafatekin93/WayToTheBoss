@@ -80,8 +80,9 @@ MonoBehaviour:
   enemyTransform: {fileID: 303814950248313861}
   swordPosition: {fileID: 303814949272401429}
   enemyAnimator: {fileID: 303814950454376687}
-  dropOnDeath: {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606,
-    type: 3}
+  dropOnDeath:
+  - {fileID: 4270041984101844245, guid: 18f1962120edbed4c962f4af81ef2606, type: 3}
+  - {fileID: 7708916761621330872, guid: 5b2fdd2c25875c348a541c837aab23e0, type: 3}
   moveableDistance: 15
   moveableVerticalDistance: 3
   attackableDistance: 2

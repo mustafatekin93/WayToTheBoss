@@ -21,6 +21,9 @@ public class EnemySpawnPoint : MonoBehaviour
 
     void Update()
     {
+        if (player == null)
+            return;
+
         distance = (player.transform.position - transform.position).magnitude;
 
         if (spawned == false && distance <= spawnDistance)
