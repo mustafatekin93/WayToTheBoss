@@ -143,6 +143,10 @@ public class PlayerControl : MonoBehaviour
         {
             boneCounter--;
         }
+        if (Input.GetKeyDown("[5]"))
+        {
+            hitCounter--;
+        }
 
         if (!DialogueSystem.inDialogue)
         {
