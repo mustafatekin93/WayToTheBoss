@@ -52,7 +52,7 @@ public class PlayerControl : MonoBehaviour
     private int hitCounter = 0;
 
     [SerializeField] private TMP_Text boneCounterText;
-    private int boneCounter = 0;
+    private int boneCounter = 1;
 
     [SerializeField] private Image skullImage;
     [SerializeField] private Sprite[] skullSprites;
@@ -127,13 +127,21 @@ public class PlayerControl : MonoBehaviour
         boneCounterText.text = ": " + boneCounter.ToString();
 
         skullImage.sprite = skullSprites[skullCounter];
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown("[7]"))
         {
             skullCounter++;
         }
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown("[4]"))
         {
             skullCounter--;
+        }
+        if (Input.GetKeyDown("[9]"))
+        {
+            boneCounter++;
+        }
+        if (Input.GetKeyDown("[6]"))
+        {
+            boneCounter--;
         }
 
         if (!DialogueSystem.inDialogue)

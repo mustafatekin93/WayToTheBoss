@@ -35,7 +35,7 @@ public class DialogueSystemCutscene : MonoBehaviour
     {
         if (textComponent.text == dialogueLines[index].DialogueLine)
         {
-            StartCoroutine(_NextLine());
+            NextLine();
         }
     }
 
@@ -45,6 +45,12 @@ public class DialogueSystemCutscene : MonoBehaviour
         inDialogue = true;
         index = 0;
         StartCoroutine(TypeLine());
+    }
+
+    IEnumerator _NextLine()
+    {
+        yield return new WaitForSeconds(2);
+        NextLine();
     }
 
     //Dialogta sonraki cümleye geçme
@@ -71,11 +77,7 @@ public class DialogueSystemCutscene : MonoBehaviour
         }
     }
 
-    IEnumerator _NextLine()
-    {
-        yield return new WaitForSeconds(3);
-        NextLine();
-    }
+
 
 
     //Harflerin tek tek yazılması
@@ -86,7 +88,7 @@ public class DialogueSystemCutscene : MonoBehaviour
         foreach (char c in dialogueLines[index].DialogueLine.ToCharArray())
         {
             textComponent.text += c;
-            SoundManager.instance.PlaySound(DialogueSound);
+            //SoundManager.instance.PlaySound(DialogueSound);
             yield return new WaitForSeconds(textSpeed);
         }
     }
