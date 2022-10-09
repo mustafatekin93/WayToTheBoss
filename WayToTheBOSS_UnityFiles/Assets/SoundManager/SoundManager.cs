@@ -8,7 +8,7 @@ public class SoundManager : MonoBehaviour
 
     private AudioSource source;
 
-    private void Awake()
+    private void Start()
     {
         instance = this;
         source = GetComponent<AudioSource>();
@@ -18,5 +18,4 @@ public class SoundManager : MonoBehaviour
     {
         source.PlayOneShot(sound);
     }
-
 }

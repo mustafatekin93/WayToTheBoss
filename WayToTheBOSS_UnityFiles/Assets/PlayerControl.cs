@@ -63,7 +63,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private AudioClip[] swordSwingSounds;
     [SerializeField] private AudioClip[] hitSounds;
     [SerializeField] private AudioClip[] pickUpSounds;
-
+    [SerializeField] private AudioClip gameOverSound;
+    [SerializeField] private AudioSource MusicManager;
     void OnDrawGizmos()
     {
         // Draw a yellow sphere at the transform's position
@@ -90,6 +91,12 @@ public class PlayerControl : MonoBehaviour
             rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
         }
     }
+    public void ResumeButton()
+    {
+        isPaused = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
 
     void Update()
     {
@@ -111,6 +118,9 @@ public class PlayerControl : MonoBehaviour
         HitTimeCounter -= Time.deltaTime;
         if (HitTimeCounter <= 0)
             HitTimeCounter = 0;
+
+        if (hitCounter >= playerHitPoint)
+            hitCounter = playerHitPoint - 1;
 
         hpImage.sprite = hpSprites[hitCounter];
 
@@ -277,8 +287,9 @@ public class PlayerControl : MonoBehaviour
             hitCounter++;
             if (hitCounter >= playerHitPoint)
             {
-
                 gameOverScreen.SetActive(true);
+                MusicManager.volume = 0;
+                SoundManager.instance.PlaySound(gameOverSound);
                 stopMove();
                 animator.SetBool("isDead", true);
                 Destroy(gameObject, 3);

@@ -13,6 +13,9 @@ TagManager:
   - Bone
   - Skull
   - Key
+  - Bones
+  - FullHp
+  - bossTrigger
   layers:
   - Default
   - TransparentFX
