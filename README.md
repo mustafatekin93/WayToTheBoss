@@ -4,10 +4,16 @@ Boss olmak için ilerleyen bir creep, oyunda 3 küçük boss ve 1 final boss bul
 Oyun Kontrolleri:
 
 Sağa Hareket  - Sağ Ok Tuşu
+
 Sola Hareket  - Sol Ok Tuşu
+
 Kapıya Girme  - Yukarı Ok Tuşu
+
      Zıplama  - Z
+
+     
      Atak     - X
+
 
 Ekran Görüntüleri
 ____________________________
